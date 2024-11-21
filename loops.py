@@ -4,9 +4,14 @@
 # 1. Basic: 
 # Write a Python program that prints all even numbers between 1 and 20 using a for loop.
 
+# def even_numbers():
+#     for num in range(1, 21):
+#         if num % 2 != 1:
+#             print(num)
+# even_numbers()
+
 def even_numbers():
-    for num in range(1, 21):
-        if num % 2 != 1:
+    for num in range(2, 21, 2):
             print(num)
 even_numbers()
 
@@ -16,9 +21,9 @@ even_numbers()
 # Use a while loop to ask the user to input a number until they provide a number greater than 10.
 
 def num_greater():
-    number = float(input("Enter a number: "))
+    number = int(input("Enter a number: "))
     while number  < 11:
-        number = float(input("Enter a number greater than ten to exit: ")) 
+        number = int(input("Enter a number greater than ten to exit: ")) 
     else:
         print(f"{number} is greater than ten.")   
 num_greater()
@@ -31,9 +36,9 @@ num_greater()
 def multiplication_table():
     for num in range(1, 6):  
         print(f"Multiplication table for {num}") 
-    for int in range(1, 11):  
-        print(f"{num}  x  {int} = {num * int}") 
-    print("\n")   
+        for int in range(1, 11):  
+            print(f"{num}  x  {int} = {num * int}") 
+        print("\n")   
 multiplication_table()
 
 

@@ -22,8 +22,6 @@ car_1.start_engine()
 
 
 
-
-
 # Advanced: 
 # Create a class called BankAccount with attributes account_number and balance. Add methods to:
 # Deposit an amount.
