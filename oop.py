@@ -29,28 +29,41 @@ car_1.start_engine()
 # Print the account balance.
 
 class BankAccount:
-    def _init_(self, account_number, balance=0):
+    def __init__(self, account_number, initial_balance=0):
         self.account_number = account_number
-        self.balance = balance
+        self.balance = initial_balance
 
     def deposit(self, amount):
-        if amount > 0:
-            self.balance += amount
-            print(f"{amount} deposited successfully. New balance: {self.balance}")
-        else:
+        if amount <= 0:
             print("Deposit amount must be positive.")
+            return
+        self.balance += amount
+        print(f"Deposited ${amount:.2f} to account {self.account_number}. New balance: ${self.balance:.2f}")
 
     def withdraw(self, amount):
-        if amount > self.balance:
-            print("Insufficient balance.")
-        elif amount > 0:
-            self.balance -= amount
-            print(f"{amount} withdrawn successfully. Remaining balance: {self.balance}")
-        else:
+        if amount <= 0:
             print("Withdrawal amount must be positive.")
+            return
+        if amount > self.balance:
+            print(f"Insufficient balance to withdraw ${amount:.2f} from account {self.account_number}.")
+        else:
+            self.balance -= amount
+            print(f"Withdrew ${amount:.2f} from account {self.account_number}. New balance: ${self.balance:.2f}")
 
     def print_balance(self):
-        print(f"Account Balance: {self.balance}")
+        print(f"Account {self.account_number} balance: ${self.balance:.2f}")
+
+
+account = BankAccount("12345678", initial_balance=500)
+account.deposit(200)
+account.print_balance()
+account.withdraw(100)
+account.print_balance()
+account.withdraw(700)
+account.print_balance()
+account.deposit(-50)
+account.withdraw(-100)
+
 
 
 
@@ -65,60 +78,59 @@ class BankAccount:
 
 
 class Book:
-    def _init_(self, title, author):
+    def __init__(self, title, author):
         self.title = title
         self.author = author
-        self.is_available = True  # Books are available by default
+        self.is_available = True
 
-    def _str_(self):
-        status = "Available" if self.is_available else "Unavailable"
-        return f"'{self.title}' by {self.author} - {status}"
+    def __str__(self):
+        return f"'{self.title}' by {self.author} ({'Available' if self.is_available else 'Unavailable'})"
 
 
-# Define the Library class
 class Library:
-    def _init_(self):
-        self.books = []  # List to store books in the library
+    def __init__(self):
+        self.books = []
 
     def add_book(self, title, author):
-        book = Book(title, author)
-        self.books.append(book)
+        new_book = Book(title, author)
+        self.books.append(new_book)
         print(f"Book '{title}' by {author} added to the library.")
 
     def remove_book(self, title):
+        """Remove a book from the library."""
         for book in self.books:
-            if book.title == title:
+            if book.title.lower() == title.lower():
                 self.books.remove(book)
                 print(f"Book '{title}' removed from the library.")
                 return
         print(f"Book '{title}' not found in the library.")
 
-    def is_book_available(self, title):
+    def check_availability(self, title):
         for book in self.books:
-            if book.title == title:
+            if book.title.lower() == title.lower():
                 return book.is_available
         print(f"Book '{title}' not found in the library.")
         return False
 
     def borrow_book(self, title):
         for book in self.books:
-            if book.title == title:
+            if book.title.lower() == title.lower():
                 if book.is_available:
                     book.is_available = False
                     print(f"You have borrowed '{title}'.")
                 else:
-                    print(f"'{title}' is currently unavailable.")
+                    print(f"Book '{title}' is currently unavailable.")
                 return
         print(f"Book '{title}' not found in the library.")
 
     def return_book(self, title):
         for book in self.books:
-            if book.title == title:
+            if book.title.lower() == title.lower():
                 if not book.is_available:
                     book.is_available = True
-                    print(f"'{title}' has been returned and is now available.")
+                    print(f"Book '{title}' has been returned.")
                 else:
-                    print(f"'{title}' was not borrowed.")
+                    print(f"Book '{title}' was not borrowed.")
                 return
         print(f"Book '{title}' not found in the library.")
 
@@ -126,8 +138,20 @@ class Library:
         if not self.books:
             print("The library is empty.")
         else:
-            print("Books in the library:")
             for book in self.books:
                 print(book)
 
+
+library = Library()
+library.add_book("To Kill a Mockingbird", "Harper Lee")
+library.add_book("1984", "George Orwell")
+library.list_books()
+print("\n")
+
+library.check_availability("1984")
+library.borrow_book("1984")
+library.check_availability("1984")
+library.return_book("1984")
+library.remove_book("To Kill a Mockingbird")
+library.list_books()
 
